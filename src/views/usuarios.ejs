@@ -1,0 +1,61 @@
+<%- include('partials/_header.ejs') %>
+
+
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-9">
+            <table class="table table-bordered table-hover"> 
+                <thead>
+                    <tr>
+                        <th>n°</th>
+                        <th>Nombre</th>
+                        <th>Fecha de inicio</th>
+                        <th>Fecha de finalización</th>
+                        <th>Fin del plan</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (data) { %>
+                        <% for (var i = 0; i < data.length; i++) { %>
+                            <tr>
+                                <td><%= (i+1) %></td>
+                                <td><%= data[i].nombre%></td>
+                                <td><%= moment(data[i].fecha_de_entrada).format(shortDateFormat) %></td>
+                                <td><%= moment(data[i].fecha_de_salida).format(shortDateFormat)%></td>
+                                <td><%= moment(data[i].fecha_de_salida).diff(moment(), "hours") + 20 %> horas </td>
+                                <td>
+                                    <a href="/delete/<%= data[i].id %>" class="btn btn-danger">Borrar</a>
+                                    <a href="/update/<%= data[i].id %>" class="btn btn-info">Editar</a>
+                                </td>
+                            </tr>
+                        <% } %>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-3">
+            <div class="card border border-dark">
+                <div class="card-body">
+                    <form action="/add" method="post">
+                        <div class="form-group">
+                            <input type="text" name="nombre" placeholder="nombre" class="form-control border border-dark">
+                        </div>
+                        <div class="form-group mt-5">
+                            <input type="date" name="fecha_de_entrada" class="form-control border border-dark">
+                        </div>
+                        <div class="form-group mt-5">
+                            <input type="date" name="fecha_de_salida" class="form-control border border-dark">
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-5">
+                            Guardar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/_footer.ejs') %>
+
